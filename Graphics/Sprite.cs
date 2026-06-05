@@ -25,6 +25,9 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
         set => _rotation = value;
     }
 
+    public float Width => _texture.Width;
+    public float Height => _texture.Height;
+
     public void Draw(Batcher batcher, Vector2 position)
     {
         batcher.Image(_texture, position, new Vector2(0, 0), new Vector2(_scale), _rotation, Color.White);
