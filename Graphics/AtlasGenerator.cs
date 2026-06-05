@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Foster.Framework;
+﻿using Foster.Framework;
 using System.IO;
 using System.Collections.Generic;
 
@@ -19,13 +18,13 @@ public class AtlasGenerator
     private readonly Packer _packer = new();
     
     // The root directory where all assets will be found.
-    public string ContentRoot { get; set; }
+    public string ContentRoot { get; }
 
     // The paths to the assets relevant to the ContentRoot.
     private readonly List<string> _assets;
 
     // This dictionary will contain all the textures that are used in an atlas.
-    public Dictionary<string, Subtexture> Textures;
+    private readonly Dictionary<string, Subtexture> _textures = new();
     
     public AtlasGenerator() { }
 
@@ -45,40 +44,45 @@ public class AtlasGenerator
     }
 
     // Make sure to never include the folder when adding an asset.
-    // The root folder for assets is always handeled using ContentRoot. 
+    // The root folder for assets is always handled using ContentRoot. 
     public void AddAsset(string assetPath) => _assets.Add(Path.Combine(ContentRoot, assetPath));
+
+    public Subtexture GetTexture(string textureName)
+    {
+        return _textures[textureName];
+    }
 
     public void Pack()
     {
         // Loads the assets that were given.
-        foreach (string asset in _assets)
+        foreach (var asset in _assets)
         {
-            Aseprite file = new Aseprite(Path.Combine(ContentRoot, asset));
-            Image[] fileFrames = file.RenderAllFrames();
+            var file = new Aseprite(Path.Combine(ContentRoot, asset));
+            var fileFrames = file.RenderAllFrames();
 
             // Adds the images and their frames (if animated) to the packer.
             if (fileFrames.Length > 1)
-                for (int i = 0; i < fileFrames.Length; i++)
+                for (var i = 0; i < fileFrames.Length; i++)
                 {
                     // For sprites with multiple frames, returns names like, "spriteName-0" or "spriteName-1".
-                    string assetName = Path.GetFileNameWithoutExtension(asset);
+                    var assetName = Path.GetFileNameWithoutExtension(asset);
                     _packer.Add($"{assetName}{i}", fileFrames[i]);
                 }
             else // Used for single frame assets.
             {
-                string assetName = Path.GetFileNameWithoutExtension(asset);
+                var assetName = Path.GetFileNameWithoutExtension(asset);
                 _packer.Add(assetName, fileFrames[0]);
             }
 
-            foreach (Image image in fileFrames) image.Dispose();
+            foreach (var image in fileFrames) image.Dispose();
 
-            Packer.Output atlasOutput = _packer.Pack();
+            var atlasOutput = _packer.Pack();
 
             // Generates the atlas and adds entries to the Textures dictionary.
             _atlas = new Texture(_graphicsDevice, atlasOutput.Pages[0]);
-            foreach (Packer.Entry entry in atlasOutput.Entries)
+            foreach (var entry in atlasOutput.Entries)
             {
-                Textures[entry.Name] = new Subtexture(_atlas, entry.Source, entry.Frame);
+                _textures[entry.Name] = new Subtexture(_atlas, entry.Source, entry.Frame);
             }
         }
     }
