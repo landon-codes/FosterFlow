@@ -3,14 +3,30 @@ using System.Numerics;
 
 namespace FosterFlow.Graphics;
 
-public class Sprite(Subtexture spriteTexture, float spriteScale)
+public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRotation = 0.0f)
 {
-    public Subtexture Texture = spriteTexture;
-    public float Scale = spriteScale;
-    public float Rotation = 0.0f;
+    private Subtexture _texture = spriteTexture;
+    public Subtexture Texture
+    {
+        set => _texture = value;
+    }
+
+    private float _scale = spriteScale;
+    public float Scale
+    {
+        get => _scale;
+        set => _scale = value;
+    }
+
+    private float _rotation = spriteRotation;
+    public float Rotation
+    {
+        get => _rotation;
+        set => _rotation = value;
+    }
 
     public void Draw(Batcher batcher, Vector2 position)
     {
-        batcher.Image(Texture, position, new Vector2(0, 0), new Vector2(Scale), Rotation, Color.White);
+        batcher.Image(_texture, position, new Vector2(0, 0), new Vector2(_scale), _rotation, Color.White);
     }
 }
