@@ -30,6 +30,6 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
 
     public void Draw(Batcher batcher, Vector2 position)
     {
-        batcher.Image(_texture, position, new Vector2(0, 0), new Vector2(_scale), _rotation, Color.White);
+        batcher.Image(_texture, position, new Vector2(_texture.Width / 2, _texture.Height / 2), new Vector2(_scale), _rotation, Color.White);
     }
 }
