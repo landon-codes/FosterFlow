@@ -3,13 +3,15 @@ using System.Numerics;
 
 namespace FosterFlow.Graphics;
 
+/// <summary>
+/// Represents sprites
+/// </summary>
+/// <param name="spriteTexture">A Foster.Framework.Graphics.SubTexture that represents the texture of the sprite</param>
+/// <param name="spriteScale">A floating point integer representing the scale of the sprite </param>
+/// <param name="spriteRotation">A floating point integer representing the rotation of the sprite (defaults to 0.0)</param>
 public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRotation = 0.0f)
 {
-    private Subtexture _texture = spriteTexture;
-    public Subtexture Texture
-    {
-        set => _texture = value;
-    }
+    public Subtexture Texture = spriteTexture;
 
     private float _scale = spriteScale;
     public float Scale
@@ -25,11 +27,11 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
         set => _rotation = value;
     }
 
-    public float Width => _texture.Width * _scale;
-    public float Height => _texture.Height * _scale;
+    public float Width => Texture.Width * _scale;
+    public float Height => Texture.Height * _scale;
 
     public void Draw(Batcher batcher, Vector2 position)
     {
-        batcher.Image(_texture, position, new Vector2(0, 0), new Vector2(_scale), _rotation, Color.White);
+        batcher.Image(Texture, position, new Vector2(0, 0), new Vector2(_scale), _rotation, Color.White);
     }
 }
