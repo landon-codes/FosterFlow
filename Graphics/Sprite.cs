@@ -15,7 +15,7 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
     public float Scale
     {
         get => _scale;
-        set => _scale = value;
+        set => _scale = value; 
     }
 
     private float _rotation = spriteRotation;
@@ -25,8 +25,8 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
         set => _rotation = value;
     }
 
-    public float Width => _texture.Width;
-    public float Height => _texture.Height;
+    public float Width => _texture.Width * _scale;
+    public float Height => _texture.Height * _scale;
 
     public void Draw(Batcher batcher, Vector2 position)
     {
