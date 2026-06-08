@@ -10,7 +10,6 @@ namespace FosterFlow;
 public class BoundingBox
 {
     private readonly Vector2 _position;
-    private readonly Sprite _sprite;
     
     private float _width;
     private float _height;
@@ -28,7 +27,6 @@ public class BoundingBox
         _width = sprite.Texture.Width;
         _height = sprite.Texture.Height;
         _position = position;
-        _sprite = sprite;
     }
     
     public BoundingBox(Vector2 position, float width, float height)
@@ -41,8 +39,8 @@ public class BoundingBox
     // Used to cleanly scale your bounding box.
     public void ScaleBoundingBox(float scale)
     {
-        _width = _sprite.Texture.Width * scale;
-        _height = _sprite.Texture.Height * scale;
+        _width *= scale;
+        _height *= scale;
     }
     
     // Checks if two bounding boxes intersect.
