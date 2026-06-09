@@ -24,8 +24,8 @@ public class BoundingBox
 
     public BoundingBox(Sprite sprite, Vector2 position)
     {
-        _width = sprite.Texture.Width;
-        _height = sprite.Texture.Height;
+        _width = sprite.Width;
+        _height = sprite.Height;
         _position = position;
     }
     
