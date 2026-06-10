@@ -34,4 +34,14 @@ public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRot
     {
         batcher.Image(Texture, position, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), new Vector2(_scale), _rotation, Color.White);
     }
+    // This override allows for mirroring sprites
+    public void Draw(Batcher batcher, Vector2 position, bool mirrorX, bool mirrorY)
+    {
+        // Get the mirror scale using the arguments
+        var xScale = (mirrorX) ? -_scale : _scale;
+        var yScale = (mirrorY) ? -_scale : _scale;
+        
+        batcher.Image(Texture, position, new Vector2(Texture.Width / 2, Texture.Height / 2), new Vector2(xScale, yScale), _rotation, Color.White);
+    }
 }
+
