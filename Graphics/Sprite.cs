@@ -3,45 +3,41 @@ using System.Numerics;
 
 namespace FosterFlow.Graphics;
 
-/// <summary>
-/// Represents sprites
-/// </summary>
-/// <param name="spriteTexture">A Foster.Framework.Graphics.SubTexture that represents the texture of the sprite</param>
-/// <param name="spriteScale">A floating point integer representing the scale of the sprite </param>
-/// <param name="spriteRotation">A floating point integer representing the rotation of the sprite (defaults to 0.0)</param>
-public class Sprite(Subtexture spriteTexture, float spriteScale, float spriteRotation = 0.0f)
+public class Sprite
 {
-    public Subtexture Texture = spriteTexture;
+    public Subtexture Texture;
+    
+    public float Scale;
 
-    private float _scale = spriteScale;
-    public float Scale
+    public float Rotation;
+    
+    public float Width => Texture.Width * Scale;
+    public float Height => Texture.Height * Scale;
+    
+    public Sprite() { }
+
+    public Sprite(Subtexture spriteTexture, float spriteScale, float spriteRotation = 0.0f)
     {
-        get => _scale;
-        set => _scale = value; 
+        Texture = spriteTexture;
+        Scale = spriteScale;
+        Rotation = spriteRotation;
     }
-
-    private float _rotation = spriteRotation;
-    public float Rotation
-    {
-        get => _rotation;
-        set => _rotation = value;
-    }
-
-    public float Width => Texture.Width * _scale;
-    public float Height => Texture.Height * _scale;
 
     public void Draw(Batcher batcher, Vector2 position)
     {
-        batcher.Image(Texture, position, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), new Vector2(_scale), _rotation, Color.White);
+        batcher.Image(Texture, position, new Vector2(Texture.Width / 2.0f, Texture.Height / 2.0f), 
+            new Vector2(Scale), Rotation, Color.White);
     }
+    
     // This override allows for mirroring sprites
     public void Draw(Batcher batcher, Vector2 position, bool mirrorX, bool mirrorY)
     {
         // Get the mirror scale using the arguments
-        var xScale = (mirrorX) ? -_scale : _scale;
-        var yScale = (mirrorY) ? -_scale : _scale;
+        var xScale = (mirrorX) ? -Scale : Scale;
+        var yScale = (mirrorY) ? -Scale : Scale;
         
-        batcher.Image(Texture, position, new Vector2(Texture.Width / 2, Texture.Height / 2), new Vector2(xScale, yScale), _rotation, Color.White);
+        batcher.Image(Texture, position, new Vector2(Texture.Width / 2, Texture.Height / 2), 
+            new Vector2(xScale, yScale), Rotation, Color.White);
     }
 }
 
