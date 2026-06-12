@@ -64,7 +64,7 @@ public class AtlasGenerator
             if (fileFrames.Length > 1)
                 for (var i = 0; i < fileFrames.Length; i++)
                 {
-                    // For sprites with multiple frames, returns names like, "spriteName-0" or "spriteName-1".
+                    // For sprites with multiple frames, returns names like, "spriteName0" or "spriteName1".
                     var assetName = Path.GetFileNameWithoutExtension(asset);
                     _packer.Add($"{assetName}{i}", fileFrames[i]);
                 }
