@@ -15,7 +15,7 @@ public class AnimatedSprite: Sprite
     // The delay between animation frames in seconds
     private float _animationDelay;
     
-    // The amount of time that has passed between frames
+    // The amount of time that has passed between frames in seconds
     private float _elapsedTime;
 
     public AnimatedSprite() { }
