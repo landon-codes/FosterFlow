@@ -43,9 +43,10 @@ public class AtlasGenerator
         Pack();
     }
 
-    // Make sure to never include the folder when adding an asset.
+    // Make sure to never include the root folder when adding an asset.
     // The root folder for assets is always handled using ContentRoot. 
     public void AddAsset(string assetPath) => _assets.Add(Path.Combine(ContentRoot, assetPath));
+    public void RemoveAsset(string assetPath) => _assets.Remove(Path.Combine(ContentRoot, assetPath));
 
     public Subtexture GetTexture(string textureName)
     {
