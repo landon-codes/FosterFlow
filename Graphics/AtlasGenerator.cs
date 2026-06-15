@@ -58,33 +58,38 @@ public class AtlasGenerator
         // Loads the assets that were given.
         foreach (var asset in _assets)
         {
-            var file = new Aseprite(Path.Combine(ContentRoot, asset));
-            var fileFrames = file.RenderAllFrames();
+            var assetType = Path.GetExtension(asset);
+            
+            if (assetType == ".ase" || assetType == ".aseprite")
+            {
+                var file = new Aseprite(Path.Combine(ContentRoot, asset));
+                var fileFrames = file.RenderAllFrames();
 
-            // Adds the images and their frames (if animated) to the packer.
-            if (fileFrames.Length > 1)
-                for (var i = 0; i < fileFrames.Length; i++)
+                // Adds the images and their frames (if animated) to the packer.
+                if (fileFrames.Length > 1)
+                    for (var i = 0; i < fileFrames.Length; i++)
+                    {
+                        // For sprites with multiple frames, returns names like, "spriteName0" or "spriteName1".
+                        var assetName = Path.GetFileNameWithoutExtension(asset);
+                        _packer.Add($"{assetName}{i}", fileFrames[i]);
+                    }
+                else // Used for single frame assets.
                 {
-                    // For sprites with multiple frames, returns names like, "spriteName0" or "spriteName1".
                     var assetName = Path.GetFileNameWithoutExtension(asset);
-                    _packer.Add($"{assetName}{i}", fileFrames[i]);
+                    _packer.Add(assetName, fileFrames[0]);
                 }
-            else // Used for single frame assets.
-            {
-                var assetName = Path.GetFileNameWithoutExtension(asset);
-                _packer.Add(assetName, fileFrames[0]);
+
+                foreach (var image in fileFrames) image.Dispose();
             }
+        }
+        
+        var atlasOutput = _packer.Pack();
 
-            foreach (var image in fileFrames) image.Dispose();
-
-            var atlasOutput = _packer.Pack();
-
-            // Generates the atlas and adds entries to the Textures dictionary.
-            _atlas = new Texture(_graphicsDevice, atlasOutput.Pages[0]);
-            foreach (var entry in atlasOutput.Entries)
-            {
-                _textures[entry.Name] = new Subtexture(_atlas, entry.Source, entry.Frame);
-            }
+        // Generates the atlas and adds entries to the Textures dictionary.
+        _atlas = new Texture(_graphicsDevice, atlasOutput.Pages[0]);
+        foreach (var entry in atlasOutput.Entries)
+        {
+            _textures[entry.Name] = new Subtexture(_atlas, entry.Source, entry.Frame);
         }
     }
 }
