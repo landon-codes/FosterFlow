@@ -1,7 +1,7 @@
 using System.Numerics;
 using FosterFlow.Graphics;
 
-namespace FosterFlow;
+namespace FosterFlow.Collisions;
 
 /// <summary>
 /// A class that represents the hit-box of a sprite.
