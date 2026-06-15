@@ -81,6 +81,16 @@ public class AtlasGenerator
 
                 foreach (var image in fileFrames) image.Dispose();
             }
+            else if (assetType == ".png")
+            {
+                // Load the image
+                Image image = new(Path.Combine(ContentRoot, asset));
+                var assetName = Path.GetFileNameWithoutExtension(asset);
+                
+                _packer.Add(assetName, image);
+
+                image.Dispose();
+            }
         }
         
         var atlasOutput = _packer.Pack();
