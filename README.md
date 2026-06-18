@@ -70,3 +70,56 @@ It takes the batcher for your game and the position where you want your sprite t
 * `public void Draw(Batcher batcher, Vector2 position, bool mirrorX, bool mirrorY)`
 
 This function does the same thing as the previous draw function, but allows you to flip the sprite on the x and/or y axis.
+
+#### [Animated Sprite](Graphics/AnimatedSprite.cs)
+The animated sprite allows you to use sprites that automatically manage different animations.
+This class inherits from [Sprite](Graphics/Sprite.cs).
+
+##### Properties
+
+* `private Dictionary<string, List<Subtexture>> _animations`
+
+This contains the different animations that are attached to the sprite.
+It is interacted with using public methods.
+
+* `private string _currentAnimation`
+
+This stores the key to the current animation that is being played from _animations.
+
+* `private int _currentFrame`
+
+This stores the current frame of the animation being played. 
+It is reset to 0 whenever a new animation is played and updated in the sprite's `Update` method.
+
+* `private float _animationDelay`
+
+This is the delay between animation frames in seconds.
+
+* `private float _elapsedTime`
+
+This keeps track of the time that has passed between animation frames.
+It is used in the `Update` method to check if it has surpassed `_elapsedTime`, and continue to the next frame.
+
+##### Methods
+
+* `public AnimatedSprite(Dictionary<string, List<Subtexture>> spriteAnimations, string startingAnimation, float animationDelay, float spriteScale = 1, float spriteRotation = 0)`
+
+This is the constructor for an animated sprite. It takes the following arguments:
+1. The dictionary containing the animations for your sprite
+2. The key to the first animation that will be played
+3. The delay between frames
+4. The scale at which your sprite will be drawn
+5. The rotation at which your sprite will be drawn
+
+* `public void PlayAnimation(string animationName)`
+
+Plays an animation from the dictionary. The input is the key to the animation in the dictionary.
+
+* `private void UpdateTexture()`
+
+This is an internally used function that updates the `Texture` property to the proper frame.
+It uses the `_animations`, `_currentAnimation`, and `_currentFrame` properties.
+
+* `public void Update(float deltaTime)`
+
+This updates the sprite. It must be called in your games update loop to function properly.
