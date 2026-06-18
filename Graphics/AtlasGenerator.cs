@@ -25,8 +25,6 @@ public class AtlasGenerator
 
     // This dictionary will contain all the textures that are used in an atlas.
     private readonly Dictionary<string, Subtexture> _textures = new();
-    
-    public AtlasGenerator() { }
 
     public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice)
     {
