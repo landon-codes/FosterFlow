@@ -53,6 +53,10 @@ public class AtlasGenerator
 
     public void Pack()
     {
+        // Clear the texture collection if it already has textures.
+        if (_textures.Count > 0)
+            _textures.Clear();
+        
         // Loads the assets that were given.
         foreach (var asset in _assets)
         {

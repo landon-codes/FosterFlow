@@ -123,3 +123,95 @@ It uses the `_animations`, `_currentAnimation`, and `_currentFrame` properties.
 * `public void Update(float deltaTime)`
 
 This updates the sprite. It must be called in your games update loop to function properly.
+
+#### [AtlasGenerator](Graphics/AtlasGenerator.cs)
+The atlas generator encapsulates the `Packer` from Foster to simplify the process of generating texture atlases.
+
+You can also use Aseprite file (including animated ones) and .png files. The only required inputs are a root directory for assets and the paths to the assets to be included themselves.
+
+*Note: Foster does not automatically pack assets with the project.*
+*This must be done in the .csproj file.*
+
+You can add this snippet to your project configuration file to include an `Assets` folder in your project:
+```xml
+<!-- Include Assets folder in builds -->
+<ItemGroup>
+    <None Include="Assets/**/*.*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
+```
+
+##### Properties
+
+* `private readonly GraphicsDevice _graphicsDevice`
+
+A reference to your game's graphic device.
+
+* `private Texture _atlas`
+
+This is the atlas that will be generated.
+
+Notice how it is not public. Subtextures are accessed through the `GetTexture` method, which takes the name of a texture as input.
+Texture names are inherited from the file name. For example, if you have a file named "Coin.ase", its name will be "Coin." For animated textures, you append the index (starting at 0) to the end of the name.
+So if our coin sprite was animated (in the context of a single animated Aseprite file), and had three frame, these would be the names of the frames:
+1. Coin0
+2. Coin1
+3. Coin2
+
+* `private readonly Packer _packer`
+
+This is the packer that is used internally.
+
+* `public string ContentRoot { get; }`
+
+This contains the path to the root directory where your image assets are stored.
+This saves you frome having to include "Assets" (or whatever directory you choose to use) in a `Path.Combine` method.
+
+It is still recomended to use `Path.Combine` when you have subfolders in your asset directory (which is likely) to ensure cross-platform compatibility. 
+Just remember NOT to include your root directory, as paths are always combined with `ContentRoot` internally.
+
+* `private readonly List<string> _assets`
+
+This is the list of assets that is provided to the packer.
+
+* `private readonly Dictionary<string, Subtexture> _textures`
+
+This contains the textures that are generated from the packer.
+
+It is private because it is exposed through methods.
+
+##### Methods
+
+* `public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice)`
+
+This provides the minimal setup with a content root and graphics device.
+You can add or remove assets from the generator using the `AddAsset` and `RemoveAsset` methods.
+You will tell the generator to pack your assets using the `Pack` method.
+
+* `public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice, List<string> assts)`
+
+This provides a full generator and automatically packs the assets for you.
+
+* `public void AddAsset(string assetPath)`
+
+This adds an asset to the generator.
+
+**IMPORTANT: This method does not automatically pack assets once they are added. If you add a new asset you will have to re-pack your atlas.**
+
+* `public void RemoveAsset(string assetPath)`
+
+This removes an asset from the generator.
+
+This would really only be useful if you want to prevent a texture from being used, but in order for that to work you will have to repack the atlas.
+
+* `public Subtexture GetTexture(string textureName)`
+
+Returns a texture from the atlas. 
+
+Textures share the name as their file name, without the extension.
+Animated Aseprite files append the frame index (starting at 0) to the end of a frame's name.
+
+* `public void Pack()`
+
+This packs the atlas and resets the texture collection if there are any.
