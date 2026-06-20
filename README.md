@@ -215,3 +215,61 @@ Animated Aseprite files append the frame index (starting at 0) to the end of a f
 * `public void Pack()`
 
 This packs the atlas and resets the texture collection if there are any.
+
+### Collisions
+FosterFlow.Collisions contains some tools to help with collision detection.
+
+Collision shapes in FosterFlow are intended to be made on the go.
+
+#### [BoundingBox](Collisions/BoundingBox.cs)
+This represents a rectangular, centered collision box.
+
+##### Properties
+
+* `private readonly Vector2 _position`
+
+This stores the center of where the collision box is created.
+
+* `private float _width`
+
+This stores the width of the bounding box.
+
+* `private float _height`
+
+This stores the height of the bounding box.
+
+* `public float Top`
+
+This dynamically calculates the value on the Y axis for the top of your bounding box.
+
+* `public float Bottom`
+
+This dynamically calculates the value on the Y axis for the bottom of your bounding box.
+
+* `public float Left`
+
+This dynamically calculates the value on the X axis for the left of your bounding box.
+
+* `public float Right`
+
+This dynamically calculates the value on the X axis for the right of your bounding box.
+
+##### Methods
+
+* `public BoundingBox(Sprite sprite, Vector2 position)`
+
+This constructor creates a bounding box using the properties from a sprite.
+
+* `public BoundingBox(Vector2 position, float width, float height)`
+
+This constructor creates a bounding box using the given values.
+
+* `public void ScaleBoundingBox(float scale)`
+
+This scales the width and height of a bounding box using the given scale.
+
+It can be used if you want to adjust the size of a bounding box after creating it.
+
+* `public bool Intersects(BoundingBox other)`
+
+Returns true if two bounding boxes are intersecting/colliding.
