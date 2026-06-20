@@ -166,7 +166,7 @@ This is the packer that is used internally.
 * `public string ContentRoot { get; }`
 
 This contains the path to the root directory where your image assets are stored.
-This saves you frome having to include "Assets" (or whatever directory you choose to use) in a `Path.Combine` method.
+This saves you from having to include "Assets" (or whatever directory you choose to use) in a `Path.Combine` method.
 
 It is still recomended to use `Path.Combine` when you have subfolders in your asset directory (which is likely) to ensure cross-platform compatibility. 
 Just remember NOT to include your root directory, as paths are always combined with `ContentRoot` internally.
@@ -273,3 +273,36 @@ It can be used if you want to adjust the size of a bounding box after creating i
 * `public bool Intersects(BoundingBox other)`
 
 Returns true if two bounding boxes are intersecting/colliding.
+
+#### [CircleBound](Collisions/CircleBound.cs)
+Circle bound represents a centered, circular collision shape.
+
+##### Properties
+
+* `protected Vector2 Center`
+
+This represents the center of the circle.
+
+* `protected Vector2 Radius`
+
+This represents the radius of the circle.
+
+##### Methods
+
+* `public CircleBound(Vector2 circleCenter, Sprite sprite)`
+
+This returns a circle bound based off the proportions of a given sprite.
+
+* `public CircleBound(Vector2 circleCenter, float radiusLength)`
+
+This allows you to specify the radius length of a circle bound.
+
+* `public void ScaleBounds(float scale)`
+
+This scales the circle bound given using the provided argument.
+
+This can be used to adjust the size of a bounding box.
+
+* `public bool Intersects(CircleBound other)`
+
+Returns if two circle bounds are intersecting/colliding.
