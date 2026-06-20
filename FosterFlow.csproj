@@ -6,6 +6,15 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        
+        <Version>0.0.0</Version>
+        
+        <!-- Nuget Properties -->
+        <PackageId>landon-codes.FosterFlow</PackageId>
+        <Authors>landon-codes</Authors>
+        <Description>A game engine build off the Foster Framework</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/landon-codes/FosterFlow</RepositoryUrl>
     </PropertyGroup>
     
     <!-- Foster Reference(s) -->

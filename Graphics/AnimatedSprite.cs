@@ -18,8 +18,6 @@ public class AnimatedSprite: Sprite
     // The amount of time that has passed between frames in seconds
     private float _elapsedTime;
 
-    public AnimatedSprite() { }
-
     /// <summary>
     /// The main constructor for animated sprites
     /// </summary>

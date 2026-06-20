@@ -25,8 +25,6 @@ public class AtlasGenerator
 
     // This dictionary will contain all the textures that are used in an atlas.
     private readonly Dictionary<string, Subtexture> _textures = new();
-    
-    public AtlasGenerator() { }
 
     public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice)
     {
@@ -55,6 +53,10 @@ public class AtlasGenerator
 
     public void Pack()
     {
+        // Clear the texture collection if it already has textures.
+        if (_textures.Count > 0)
+            _textures.Clear();
+        
         // Loads the assets that were given.
         foreach (var asset in _assets)
         {
