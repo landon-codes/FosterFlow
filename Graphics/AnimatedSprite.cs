@@ -41,8 +41,12 @@ public class AnimatedSprite: Sprite
         Rotation = spriteRotation;
     }
 
-    public void PlayAnimation(string animationName)
+    public void PlayAnimation(string animationName, bool restartIfNotChanged = true)
     {
+        // Checks if an update needs to be made
+        if (_currentAnimation == animationName && !restartIfNotChanged)
+            return;
+            
         _currentAnimation = animationName;
         
         // Resets the frame so it will start at the first frame.
