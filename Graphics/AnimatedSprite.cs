@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Foster.Framework;
 
-namespace FosterFlow.Graphics;
+namespace BaobabEngine.Graphics;
 
 public class AnimatedSprite: Sprite
 {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace FosterFlow.Graphics;
+namespace BaobabEngine.Graphics;
 
 /// <summary>
 ///  A class that uses Aseprite files and Foster's Packer class to generate

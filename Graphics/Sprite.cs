@@ -1,7 +1,7 @@
 ﻿using Foster.Framework;
 using System.Numerics;
 
-namespace FosterFlow.Graphics;
+namespace BaobabEngine.Graphics;
 
 public class Sprite
 {

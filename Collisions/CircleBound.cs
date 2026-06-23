@@ -1,7 +1,7 @@
-﻿using FosterFlow.Graphics;
+﻿using BaobabEngine.Graphics;
 using System.Numerics;
 
-namespace FosterFlow.Collisions;
+namespace BaobabEngine.Collisions;
 
 public class CircleBound
 {

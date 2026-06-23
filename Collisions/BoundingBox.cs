@@ -1,7 +1,7 @@
 using System.Numerics;
-using FosterFlow.Graphics;
+using BaobabEngine.Graphics;
 
-namespace FosterFlow.Collisions;
+namespace BaobabEngine.Collisions;
 
 /// <summary>
 /// A class that represents the hit-box of a sprite.
