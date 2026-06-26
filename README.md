@@ -1,308 +1,67 @@
-﻿# [FosterFlow](https://github.com/landon-codes/FosterFlow)
-A custom engine build off the [Foster Framework](https://github.com/FosterFramework/Foster).
+# [Baobâb](https://github.com/BaobabEngine/Baobab)
+Baobab is a custom engine made with C# to merge the control of frameworks with the features of a proper game engine.
+This project is currently in early development, but a usable, initial build has been published to Nuget. 
+You can use it by running `dotnet package add BaobabEngine.Baobab` in your project.
 
-FosterFlow uses the basics provided by Foster to provide features like:
-* A simple texture atlas pipeline
-* Sprite creation and animated sprites
-* Collision detection
+## What is Baobab
+Baobab is a C# class library built off the *[Foster](https://github.com/FosterFramework/Foster)* framework. 
+Many classes and methods are provided to help developers build games on their own.
 
-## Usage
+Baobab is distributed as a Nuget package for several reasons. The most notable benifit is that the engine does not become reliant on a built-in GUI editor.
+Developers don't have to learn another editor, and can just use the environment they are comfortable with. 
+As a result, context switching is minimized due to the ability to use a common code editor like *VS Code* where all work can be kept central and organized.
+Nuget packages are typically lightweight. Using Nuget minimizes friction to install the engine and doesn't require formal installation.
+Developers who just want to try Baobab don't have to worry about a long or complicated installation process.
 
-The first step to use FosterFlow for your games is to install it.
-You can do this either by running `dotnet package add landon-codes.FosterFlow` in your project directory or downloading the source code from the GitHub repository and adding a reference to the project in your game.
+Being built off *Foster*, Baobab tools are interchangable with their already present structure. 
+Developers can pick and choose between *Foster* features and engine features freely. In addition, developers can branch or modify Baobab features to tune the system to their likings.
 
-Once you have access to the package, you can use it in your project by adding a using reference (`using FosterFlow;`) to your project.
+With a code-first design, developers are able to freely decide how they want to build their systems. 
+The engine does not force a rigid structure for implementations like sprite creation, asset loading, audio playing, etc.
+Developers are also capable of building their own sub-engines or libraries to provide extra features or template the tools they use the most.
 
-*Tip: In game development, developers often use many using statements for the same project to simplify some other calls.*
-*You may want to do this for `FosterFlow.Graphics`.*
+Baobab is completely free and open source. You will NEVER have to pay any fees to use this engine. Baobab is licensed under the MIT license, which allows community members to continue to improve provided features, regardless of whether the engine is actively maintained or not.
 
-## Documentation
+Baobab is designed for developers who love controll and freedom, without sacrificing quality of life.
 
-### Graphics
-`FosterFlow.Graphics` contains a handful of tools that make managing graphics simpler in your Foster projects.
+## How to use Baobab
+Currently, no abstractions are provided for the *Foster* game loop. You can view *Foster's* ["Shape"](https://github.com/FosterFramework/Samples/blob/main/Shapes/Program.cs) example to get an understanding of how Foster's game loop works.
+Essentially, the setup for a *Foster* game is to implement a class that inherits from the `Foster.Framework.App` class.
+This class then requires the implementation of the following methods:
+1. Startup - Ran when the program starts.
+2. Shutdown - Run before the program ends.
+3. Update - Ran every frame to update game data.
+4. Render - Ran every frame after the `Update` method to actually draw sprites.
 
-#### [Sprite](Graphics/Sprite.cs)
-`FosterFlow.Graphics.Sprite` represents sprites in your game. 
-Sprites are intended to be included as a public or private property in your entities. They will contain the texture (`Foster.Framework.Subtexture`) that you will show on the screen.
+*Note that these methods require overrides, and don't have default functionality.*
+More features are being planned to make the game loop more convenient.
 
-##### Properties
-* `public Subtexture Texture`
+Once you have a game class setup, you will create an instance of the class and use the `.Run` method to start the game.
 
-This is the actual texture that will be drawn to the screen. It can be changed but for animation the [animated sprite](Graphics/AnimatedSprite.cs) would be more suitable.
+## Roadmap
+These are the next features that are planned for Baobab:
+1. GUI library
+2. Audio support
+3. More quality of life features
 
-* `public float Scale`
+The primary source for feature ideas will be requests. Feature requests can be submited as described under the *[Contributions](#contributions)* section.
 
-This is the scale at which your sprite will be drawn. Some frameworks/engines require boilerplate to cleanly handle scaling with pixel art, but Foster handles this automatically.
+## Contributions
+This is a list of very appreciated contributions:
+* Code help
+* Documentation support
+* Feature requests
 
-The scale can be changed but is also set during initialization.
 
-* `public float Rotation`
+If you want to suggest any code or documentation adjustments, you can submit a pull request to the GitHub [repository](https://GitHub.com/BaobabEngine/Baobab).
 
-This is the rotation at which the sprite will be drawn. 
-During initialization, it does not need to be explicitly defined because it has a default value of `0.0f` (no rotation).
+Feature requests can be submited as an issue to the repository.
 
-* `public float Width`
+Any major changes must first be discussed and approved. Note that not all features may be merged.
 
-This returns the Width of the sprite.
-This width is automatically scaled using the `Scale` property with the `Texture.Width` property.
+Thank you to all who choose to contribute!
 
-It is automatically calculated and does not need to be updated.
+## License and Credit
+Baobab is produced under the [MIT license](LICENSE).
 
-* `public float Height`
-
-This is the same as the width. It is also automatically updated and does not need to be updated.
-
-##### Methods
-
-* `public Sprite()`
-
-This constructor returns an empty sprite. Nothing is pre-initialized.
-
-* `public Sprite(Subtexture spriteTexture, float spriteScale, float spriteRotation = 0.0f)`
-
-This constructor returns a full, ready for use sprite.
-
-* `Draw(Batcher batcher, Vector2 position)`
-
-This is simple drawing function for your sprite. 
-It takes the batcher for your game and the position where you want your sprite to be drawn as input.
-
-* `public void Draw(Batcher batcher, Vector2 position, bool mirrorX, bool mirrorY)`
-
-This function does the same thing as the previous draw function, but allows you to flip the sprite on the x and/or y axis.
-
-#### [Animated Sprite](Graphics/AnimatedSprite.cs)
-The animated sprite allows you to use sprites that automatically manage different animations.
-This class inherits from [Sprite](Graphics/Sprite.cs).
-
-##### Properties
-
-* `private Dictionary<string, List<Subtexture>> _animations`
-
-This contains the different animations that are attached to the sprite.
-It is interacted with using public methods.
-
-* `private string _currentAnimation`
-
-This stores the key to the current animation that is being played from _animations.
-
-* `private int _currentFrame`
-
-This stores the current frame of the animation being played. 
-It is reset to 0 whenever a new animation is played and updated in the sprite's `Update` method.
-
-* `private float _animationDelay`
-
-This is the delay between animation frames in seconds.
-
-* `private float _elapsedTime`
-
-This keeps track of the time that has passed between animation frames.
-It is used in the `Update` method to check if it has surpassed `_elapsedTime`, and continue to the next frame.
-
-##### Methods
-
-* `public AnimatedSprite(Dictionary<string, List<Subtexture>> spriteAnimations, string startingAnimation, float animationDelay, float spriteScale = 1, float spriteRotation = 0)`
-
-This is the constructor for an animated sprite. It takes the following arguments:
-1. The dictionary containing the animations for your sprite
-2. The key to the first animation that will be played
-3. The delay between frames
-4. The scale at which your sprite will be drawn
-5. The rotation at which your sprite will be drawn
-
-* `public void PlayAnimation(string animationName)`
-
-Plays an animation from the dictionary. The input is the key to the animation in the dictionary.
-
-* `private void UpdateTexture()`
-
-This is an internally used function that updates the `Texture` property to the proper frame.
-It uses the `_animations`, `_currentAnimation`, and `_currentFrame` properties.
-
-* `public void Update(float deltaTime)`
-
-This updates the sprite. It must be called in your games update loop to function properly.
-
-#### [AtlasGenerator](Graphics/AtlasGenerator.cs)
-The atlas generator encapsulates the `Packer` from Foster to simplify the process of generating texture atlases.
-
-You can also use Aseprite file (including animated ones) and .png files. The only required inputs are a root directory for assets and the paths to the assets to be included themselves.
-
-*Note: Foster does not automatically pack assets with the project.*
-*This must be done in the .csproj file.*
-
-You can add this snippet to your project configuration file to include an `Assets` folder in your project:
-```xml
-<!-- Include Assets folder in builds -->
-<ItemGroup>
-    <None Include="Assets/**/*.*">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-</ItemGroup>
-```
-
-##### Properties
-
-* `private readonly GraphicsDevice _graphicsDevice`
-
-A reference to your game's graphic device.
-
-* `private Texture _atlas`
-
-This is the atlas that will be generated.
-
-Notice how it is not public. Subtextures are accessed through the `GetTexture` method, which takes the name of a texture as input.
-Texture names are inherited from the file name. For example, if you have a file named "Coin.ase", its name will be "Coin." For animated textures, you append the index (starting at 0) to the end of the name.
-So if our coin sprite was animated (in the context of a single animated Aseprite file), and had three frame, these would be the names of the frames:
-1. Coin0
-2. Coin1
-3. Coin2
-
-* `private readonly Packer _packer`
-
-This is the packer that is used internally.
-
-* `public string ContentRoot { get; }`
-
-This contains the path to the root directory where your image assets are stored.
-This saves you from having to include "Assets" (or whatever directory you choose to use) in a `Path.Combine` method.
-
-It is still recomended to use `Path.Combine` when you have subfolders in your asset directory (which is likely) to ensure cross-platform compatibility. 
-Just remember NOT to include your root directory, as paths are always combined with `ContentRoot` internally.
-
-* `private readonly List<string> _assets`
-
-This is the list of assets that is provided to the packer.
-
-* `private readonly Dictionary<string, Subtexture> _textures`
-
-This contains the textures that are generated from the packer.
-
-It is private because it is exposed through methods.
-
-##### Methods
-
-* `public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice)`
-
-This provides the minimal setup with a content root and graphics device.
-You can add or remove assets from the generator using the `AddAsset` and `RemoveAsset` methods.
-You will tell the generator to pack your assets using the `Pack` method.
-
-* `public AtlasGenerator(string contentRoot, GraphicsDevice graphicsDevice, List<string> assts)`
-
-This provides a full generator and automatically packs the assets for you.
-
-* `public void AddAsset(string assetPath)`
-
-This adds an asset to the generator.
-
-**IMPORTANT: This method does not automatically pack assets once they are added. If you add a new asset you will have to re-pack your atlas.**
-
-* `public void RemoveAsset(string assetPath)`
-
-This removes an asset from the generator.
-
-This would really only be useful if you want to prevent a texture from being used, but in order for that to work you will have to repack the atlas.
-
-* `public Subtexture GetTexture(string textureName)`
-
-Returns a texture from the atlas. 
-
-Textures share the name as their file name, without the extension.
-Animated Aseprite files append the frame index (starting at 0) to the end of a frame's name.
-
-* `public void Pack()`
-
-This packs the atlas and resets the texture collection if there are any.
-
-### Collisions
-FosterFlow.Collisions contains some tools to help with collision detection.
-
-Collision shapes in FosterFlow are intended to be made on the go.
-
-#### [BoundingBox](Collisions/BoundingBox.cs)
-This represents a rectangular, centered collision box.
-
-##### Properties
-
-* `private readonly Vector2 _position`
-
-This stores the center of where the collision box is created.
-
-* `private float _width`
-
-This stores the width of the bounding box.
-
-* `private float _height`
-
-This stores the height of the bounding box.
-
-* `public float Top`
-
-This dynamically calculates the value on the Y axis for the top of your bounding box.
-
-* `public float Bottom`
-
-This dynamically calculates the value on the Y axis for the bottom of your bounding box.
-
-* `public float Left`
-
-This dynamically calculates the value on the X axis for the left of your bounding box.
-
-* `public float Right`
-
-This dynamically calculates the value on the X axis for the right of your bounding box.
-
-##### Methods
-
-* `public BoundingBox(Sprite sprite, Vector2 position)`
-
-This constructor creates a bounding box using the properties from a sprite.
-
-* `public BoundingBox(Vector2 position, float width, float height)`
-
-This constructor creates a bounding box using the given values.
-
-* `public void ScaleBoundingBox(float scale)`
-
-This scales the width and height of a bounding box using the given scale.
-
-It can be used if you want to adjust the size of a bounding box after creating it.
-
-* `public bool Intersects(BoundingBox other)`
-
-Returns true if two bounding boxes are intersecting/colliding.
-
-#### [CircleBound](Collisions/CircleBound.cs)
-Circle bound represents a centered, circular collision shape.
-
-##### Properties
-
-* `protected Vector2 Center`
-
-This represents the center of the circle.
-
-* `protected Vector2 Radius`
-
-This represents the radius of the circle.
-
-##### Methods
-
-* `public CircleBound(Vector2 circleCenter, Sprite sprite)`
-
-This returns a circle bound based off the proportions of a given sprite.
-
-* `public CircleBound(Vector2 circleCenter, float radiusLength)`
-
-This allows you to specify the radius length of a circle bound.
-
-* `public void ScaleBounds(float scale)`
-
-This scales the circle bound given using the provided argument.
-
-This can be used to adjust the size of a bounding box.
-
-* `public bool Intersects(CircleBound other)`
-
-Returns if two circle bounds are intersecting/colliding.
+Be sure to checkout the *[Foster](https://GitHub.com/FosterFramework/Foster)* framework. This project wouldn't be possible without the amazing team working on this framework.
