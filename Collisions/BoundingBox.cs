@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using BaobabEngine.Graphics;
 
@@ -51,4 +52,20 @@ public class BoundingBox
                  Bottom < other.Top ||
                  Top > other.Bottom);
     }
+
+    public bool Intersects(CircleBound other)
+    {
+        // Clamp circle center to the rectangle
+        float closestX = Math.Clamp(other.Center.X, Left, Right);
+        float closestY = Math.Clamp(other.Center.Y, Top, Bottom);
+
+        // Compute distance from circle center to closest point
+        float dx = other.Center.X - closestX;
+        float dy = other.Center.Y - closestY;
+
+        float distanceSquared = dx * dx + dy * dy;
+
+        return distanceSquared <= other.Radius * other.Radius;
+    }
+
 }
