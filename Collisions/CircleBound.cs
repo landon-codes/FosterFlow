@@ -5,9 +5,15 @@ namespace BaobabEngine.Collisions;
 
 public class CircleBound
 {
-    protected Vector2 Center;
+    public Vector2 Center;
+
+    public float Top => Center.Y - Radius;
+    public float Bottom => Center.Y + Radius;
+
+    public float Left => Center.X - Radius;
+    public float Right => Center.X + Radius;
     
-    protected float Radius;
+    public float Radius;
 
     public CircleBound(Vector2 circleCenter, Sprite sprite)
     {
