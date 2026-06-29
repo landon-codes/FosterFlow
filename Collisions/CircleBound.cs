@@ -35,4 +35,9 @@ public class CircleBound
     {
         return Vector2.DistanceSquared(Center, other.Center) < Radius * other.Radius;
     }
+
+    public bool Intersects(BoundingBox other)
+    {
+        return other.Intersects(this);
+    }
 }
