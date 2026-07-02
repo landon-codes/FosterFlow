@@ -9,7 +9,7 @@ public class Timer(float durationInSeconds)
     
     private float _elapsedTime;
     
-    public void Update(float deltaTime, object sender, EventArgs args)
+    public void Update(float deltaTime, object? sender, EventArgs args)
     {
         _elapsedTime += deltaTime;
 
